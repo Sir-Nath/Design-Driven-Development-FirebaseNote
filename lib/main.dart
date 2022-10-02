@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:notepad_firebase_ddd/injection.dart';
 
 void main() {
+  configureInjection(Environment.prod);
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
