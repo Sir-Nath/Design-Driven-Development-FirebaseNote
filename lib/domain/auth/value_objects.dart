@@ -22,13 +22,3 @@ class Password extends ValueObject<String>{
     return Password._(validatePassword(input));
   }
 }
-
-class InvalidPasswordFailure implements Failure {
-  final String failedValue;
-  InvalidPasswordFailure({required this.failedValue});
-}
-abstract class Failure{}
-class InvalidEmailFailure implements Failure{
-  final String failedValue;
-  InvalidEmailFailure({required this.failedValue});
-}

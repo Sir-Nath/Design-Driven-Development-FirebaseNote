@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "501221011037",
+    "project_id": "design-driven-dev-note-app",
+    "storage_bucket": "design-driven-dev-note-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501221011037:android:9a2936c1daa121e78367b4",
+        "android_client_info": {
+          "package_name": "com.example.notepad_firebase_ddd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501221011037-q235lekkf6sbr70frhhe53rjtrugelsq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.notepad_firebase_ddd",
+            "certificate_hash": "5f1d87dd73037ccba1a9d26dd09800cfcd170bb7"
+          }
+        },
+        {
+          "client_id": "501221011037-k6696u2omre2u16d9k90nha6jdes41cg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWD-iXiM-qcucb3CIa89J8dKqKDvTC33s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501221011037-k6696u2omre2u16d9k90nha6jdes41cg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

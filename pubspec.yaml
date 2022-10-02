@@ -27,7 +27,7 @@ environment:
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
+# versions available, run `flutter pub outdated`.a
 dependencies:
   flutter:
     sdk: flutter
@@ -40,6 +40,9 @@ dependencies:
   dartz: ^0.10.1
   build_runner: ^2.2.1
   flutter_bloc: ^8.1.1
+  firebase_core: ^1.24.0
+  firebase_auth: ^3.11.0
+  google_sign_in: ^5.4.2
 
 dev_dependencies:
   flutter_test:
