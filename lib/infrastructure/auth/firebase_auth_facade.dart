@@ -6,10 +6,8 @@ import 'package:injectable/injectable.dart';
 import 'package:notepad_firebase_ddd/domain/auth/auth_failure.dart';
 import 'package:notepad_firebase_ddd/domain/auth/value_objects.dart';
 import '../../domain/auth/I_auth_facade.dart';
-import 'package:injectable/injectable.dart';
 
 
-@LazySingleton(as: IAuthFacade)
 class FirebaseAuthFacade implements IAuthFacade {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;

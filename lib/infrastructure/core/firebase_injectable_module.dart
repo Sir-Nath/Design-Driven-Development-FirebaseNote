@@ -1,11 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:injectable/injectable.dart';
-
-@module
-abstract class FirebaseInjectableModule{
-  @lazySingleton
-  GoogleSignIn get googleSignIn => GoogleSignIn();
-  @lazySingleton
-  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
-}
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:injectable/injectable.dart';
+//
+//
+// //this for injecting third party packages
+// @module
+// abstract class FirebaseInjectableModule{
+//   @lazySingleton
+//   GoogleSignIn get googleSignIn => GoogleSignIn();
+//   @lazySingleton
+//   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
+// }
