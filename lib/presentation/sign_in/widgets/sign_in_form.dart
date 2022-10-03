@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notepad_firebase_ddd/application/auth/sign_in_form/sign_in_form_bloc.dart';
 
-class SignInForm extends StatelessWidget {
+class SignInForm extends StatefulWidget {
   const SignInForm({Key? key}) : super(key: key);
 
+  @override
+  State<SignInForm> createState() => _SignInFormState();
+}
+
+class _SignInFormState extends State<SignInForm> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInFormBloc, SignInFormState>(
         builder: (context, state) {
           return Form(
-            autovalidateMode:state.showErrorMessages ? AutovalidateMode.disabled : AutovalidateMode.always,
+            key: _formKey,
+            autovalidateMode: state.showErrorMessages ? AutovalidateMode.disabled : AutovalidateMode.always,
             child: SizedBox(
               height: 400,
               child: ListView(
@@ -74,45 +81,34 @@ class SignInForm extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Flex(mainAxisSize: MainAxisSize.min,
-                          direction: Axis.horizontal, children: [
-                        Flexible(
-                          flex: 1,
-                          child: TextButton(
-                            onPressed: () {
-                              context.read<SignInFormBloc>().add(
-                                  const SignInFormEvent
-                                      .signInWithEmailAndPasswordPressed());
-                            },
-                            child: const Text('SIGN IN'),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: TextButton(
-                            onPressed: () {
-                              context.read<SignInFormBloc>().add(
-                                  const SignInFormEvent
-                                      .registerWithEmailAndPasswordPressed());
-                            },
-                            child: const Text('REGISTER'),
-                          ),
-                        ),
-                      ])
+                      TextButton(
+                        onPressed: () {
+                          context.read<SignInFormBloc>().add(
+                              const SignInFormEvent
+                                  .signInWithEmailAndPasswordPressed());
+                        },
+                        child: const Text('SIGN IN'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          context.read<SignInFormBloc>().add(
+                              const SignInFormEvent
+                                  .registerWithEmailAndPasswordPressed());
+                        },
+                        child: const Text('REGISTER'),
+                      )
                     ],
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () {
-                        context
-                            .read<SignInFormBloc>()
-                            .add(const SignInFormEvent.signInWithGooglePressed());
-                      },
-                      child: const Text('SIGN IN WITH GOOGLE'),
-                    ),
+                  TextButton(
+                    onPressed: () {
+                      context
+                          .read<SignInFormBloc>()
+                          .add(const SignInFormEvent.signInWithGooglePressed());
+                    },
+                    child: const Text('SIGN IN WITH GOOGLE'),
                   ),
                 ],
               ),
