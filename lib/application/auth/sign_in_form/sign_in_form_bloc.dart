@@ -12,135 +12,65 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
   final IAuthFacade _authFacade;
   SignInFormBloc(this._authFacade) : super(SignInFormState.initial()) {
 
-    on<SignInFormEvent>((event, emit)async{
+    on<EmailChangedEvent>((event, emit){
+      emit(state.copyWith(
+          emailAddress: EmailAddress(event.email),
+          authFailureOrSuccess: none()
+      ));
+    });
+
+    on<PasswordChangedEvent>((event, emit){
       emit(
-        event.map(
-            emailChanged: (e){
-              emit(state.copyWith(
-                  emailAddress: EmailAddress(e.emailStr),
-                  authFailureOrSuccess: none()
-              ));
-              throw '';
-            },
-            passwordChanged: (e){
-              emit(
-                  state.copyWith(
-                      password: Password(e.passwordStr),
-                      authFailureOrSuccess: none())
-              );
-              throw '';
-            },
-            registerWithEmailAndPasswordPressed: (e){
-              final isEmailValid = state.emailAddress.isValid();
-              final isPasswordValid = state.password.isValid();
-              if (isEmailValid && isPasswordValid) {
-                emit(state.copyWith(
-                    isSubmitting: true, authFailureOrSuccess: none()));
-                     _authFacade.registerWithEmailAndPassword(
-                    email: state.emailAddress, password: state.password).then((value){
-                       emit(state.copyWith(
-                           isSubmitting: false,
-                           authFailureOrSuccess: some(value)));
-                     });
-              }
-              emit(state.copyWith(
-                  showErrorMessages: true, authFailureOrSuccess: none()));
-              throw '';
-            },
-            signInWithEmailAndPasswordPressed: (e){
-              final isEmailValid = state.emailAddress.isValid();
-              final isPasswordValid = state.password.isValid();
-              if (isEmailValid && isPasswordValid) {
-                emit(state.copyWith(
-                    isSubmitting: true, authFailureOrSuccess: none()));
-                _authFacade.signInWithEmailAndPassword(
-                    email: state.emailAddress, password: state.password).then((value){
-                  emit(state.copyWith(
-                      isSubmitting: false,
-                      authFailureOrSuccess: some(value)));
-                });
-              }
-              emit(state.copyWith(
-                  showErrorMessages: true, authFailureOrSuccess: none()));
-              throw '';
-            },
-            signInWithGooglePressed: (e){
-              emit(
-                  state.copyWith(
-                    isSubmitting: true,
-                    authFailureOrSuccess: none(),
-                  )
-              );
-              _authFacade.signInWithGoogle().then((value){
-                emit(state.copyWith(
-                    isSubmitting: false,
-                    authFailureOrSuccess: some(value)));
-              });
-              throw '';
-            }
-        )
+          state.copyWith(
+              password: Password(event.password),
+              authFailureOrSuccess: none())
       );
     });
-    //
-    // @override
-    // Stream<SignInFormState> mapEventToState(SignInFormEvent event) async* {
-    //   yield* event.map(
-    //     emailChanged: (e) async* {
-    //       yield state.copyWith(
-    //           emailAddress: EmailAddress(e.emailStr),
-    //           authFailureOrSuccess: none());
-    //     },
-    //     passwordChanged: (e) async* {
-    //       yield state.copyWith(
-    //         password: Password(e.passwordStr),
-    //         authFailureOrSuccess: none(),
-    //       );
-    //     },
-    //     registerWithEmailAndPasswordPressed: (e) async* {
-    //       final isEmailValid = state.emailAddress.isValid();
-    //       final isPasswordValid = state.password.isValid();
-    //       if (isEmailValid && isPasswordValid) {
-    //         yield state.copyWith(
-    //             isSubmitting: true, authFailureOrSuccess: none());
-    //         final failureOrSuccess =
-    //             await _authFacade.registerWithEmailAndPassword(
-    //                 email: state.emailAddress, password: state.password);
-    //         yield state.copyWith(
-    //             isSubmitting: false,
-    //             authFailureOrSuccess: some(failureOrSuccess));
-    //       }
-    //       yield state.copyWith(
-    //           showErrorMessages: true, authFailureOrSuccess: none());
-    //     },
-    //     signInWithEmailAndPasswordPressed: (e) async* {
-    //       final isEmailValid = state.emailAddress.isValid();
-    //       final isPasswordValid = state.password.isValid();
-    //       if (isEmailValid && isPasswordValid) {
-    //         yield state.copyWith(
-    //             isSubmitting: true, authFailureOrSuccess: none());
-    //         final failureOrSuccess =
-    //             await _authFacade.signInWithEmailAndPassword(
-    //           email: state.emailAddress,
-    //           password: state.password,
-    //         );
-    //         yield state.copyWith(
-    //             isSubmitting: false,
-    //             authFailureOrSuccess: some(failureOrSuccess));
-    //       }
-    //       yield state.copyWith(
-    //           showErrorMessages: true, authFailureOrSuccess: none());
-    //     },
-    //     signInWithGooglePressed: (e) async* {
-    //       yield state.copyWith(
-    //         isSubmitting: true,
-    //         authFailureOrSuccess: none(),
-    //       );
-    //       final failureOrSuccess = await _authFacade.signInWithGoogle();
-    //       yield state.copyWith(
-    //           isSubmitting: false,
-    //           authFailureOrSuccess: some(failureOrSuccess));
-    //     },
-    //   );
-    // }
+
+    on<SignInWithEmailAndPassword>((event, emit)async{
+      final isEmailValid = state.emailAddress.isValid();
+      final isPasswordValid = state.password.isValid();
+      if (isEmailValid && isPasswordValid) {
+        emit(state.copyWith(
+            isSubmitting: true, authFailureOrSuccess: none()));
+        final failureOrSuccess = await _authFacade.signInWithEmailAndPassword(
+            email: state.emailAddress, password: state.password);
+        emit(state.copyWith(
+            isSubmitting: false,
+            authFailureOrSuccess: some(failureOrSuccess)));
+      }
+      emit(state.copyWith(
+          showErrorMessages: true, authFailureOrSuccess: none()));
+    });
+
+    on<RegisterWithEmailAndPassword>((event, emit)async{
+      final isEmailValid = state.emailAddress.isValid();
+      final isPasswordValid = state.password.isValid();
+      if (isEmailValid && isPasswordValid) {
+        emit(state.copyWith(
+            isSubmitting: true, authFailureOrSuccess: none()));
+        final failureOrSuccess =  await _authFacade.registerWithEmailAndPassword(
+            email: state.emailAddress, password: state.password);
+        emit(state.copyWith(
+            isSubmitting: false,
+            authFailureOrSuccess: some(failureOrSuccess)));
+      }
+      emit(state.copyWith(
+          showErrorMessages: true, authFailureOrSuccess: none()));
+    });
+
+    on<SignInWithGoogle>((event, emit)async{
+      emit(
+          state.copyWith(
+            isSubmitting: true,
+            authFailureOrSuccess: none(),
+          )
+      );
+      final failureOrSuccess = await _authFacade.signInWithGoogle();
+      emit(state.copyWith(
+          isSubmitting: false,
+          authFailureOrSuccess: some(failureOrSuccess)));
+    });
   }
+
 }
