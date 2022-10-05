@@ -16,12 +16,10 @@ class PasswordChangedEvent extends SignInFormEvent{
 }
 
 class SignInWithEmailAndPassword extends SignInFormEvent{
-
   SignInWithEmailAndPassword();
 }
 
 class RegisterWithEmailAndPassword extends SignInFormEvent{
-
   RegisterWithEmailAndPassword();
 }
 

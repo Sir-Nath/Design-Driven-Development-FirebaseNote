@@ -46,6 +46,7 @@ dependencies:
   injectable: ^1.5.3
   get_it: ^7.2.0
   flutter_flushbar: ^0.0.2
+  uuid: ^3.0.6
 
 
 dev_dependencies:

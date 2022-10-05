@@ -4,6 +4,7 @@ class UnExceptedValueError extends Error {
   final ValueFailure valueFailure;
 
   UnExceptedValueError(this.valueFailure);
+
   @override
   String toString() {
     return Error.safeToString(

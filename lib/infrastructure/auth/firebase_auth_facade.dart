@@ -4,8 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notepad_firebase_ddd/domain/auth/auth_failure.dart';
 import 'package:notepad_firebase_ddd/domain/auth/value_objects.dart';
+import 'package:notepad_firebase_ddd/infrastructure/auth/firebase_user_mapper.dart';
 import '../../domain/auth/I_auth_facade.dart';
+import '../../domain/auth/user.dart';
 
+//this is a firebase implementation of the IAuthFacade
 
 class FirebaseAuthFacade implements IAuthFacade {
   final FirebaseAuth _firebaseAuth;
@@ -59,7 +62,7 @@ class FirebaseAuthFacade implements IAuthFacade {
 
   @override
   Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
-    try{
+    try {
       final googleUSer = await _googleSignIn.signIn();
       if (googleUSer == null) {
         return left(const AuthFailure.cancelledByUser());
@@ -73,8 +76,22 @@ class FirebaseAuthFacade implements IAuthFacade {
       return _firebaseAuth
           .signInWithCredential(authCredentials)
           .then((r) => right(unit));
-    }on PlatformException catch(_){
+    } on PlatformException catch (_) {
       return left(const AuthFailure.serverError());
     }
+  }
+
+  @override
+  Option<AuthUser> getSignedInUser() {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    return optionOf((firebaseUser?.toDomain()));
+  }
+
+  @override
+  Future<void> signOut() {
+    return Future.wait([
+      _firebaseAuth.signOut(),
+      _googleSignIn.signOut(),
+    ]);
   }
 }
