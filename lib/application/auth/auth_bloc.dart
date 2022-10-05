@@ -7,6 +7,8 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IAuthFacade _authFacade;
   AuthBloc(this._authFacade) : super(InitialState()) {
+
+
     on<AuthCheckRequest>((event, emit) async {
       final userOption = _authFacade.getSignedInUser();
       userOption.fold(
@@ -15,9 +17,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
 
+
     on<SignedOut>((event, emit) async {
       await _authFacade.signOut();
       emit(UnauthenticatedState());
     });
+
+
   }
 }

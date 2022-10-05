@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notepad_firebase_ddd/domain/auth/auth_failure.dart';
 import 'package:notepad_firebase_ddd/domain/auth/user.dart';
 import 'package:notepad_firebase_ddd/domain/auth/value_objects.dart';
@@ -23,6 +22,4 @@ abstract class IAuthFacade {
   Option<AuthUser> getSignedInUser();
 
   Future<void> signOut();
-
-
 }
