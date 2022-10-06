@@ -10,9 +10,12 @@ import 'package:notepad_firebase_ddd/presentation/route/route.dart';
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
 
+  //the child of our splash screen is a circular indicator which should take us to either the sign in form on unauthenticated or to the note is authenticated
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(listener: (context, state){
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state){
       if(state is InitialState){
 
       }else if(state is AuthenticatedState){
@@ -21,7 +24,6 @@ class SplashPage extends StatelessWidget {
       }else if(state is UnauthenticatedState){
         AutoRouter.of(context).replaceNamed('/sign-in-page');
       }
-
     },
     child: const Scaffold(
         body: Center(

@@ -51,3 +51,4 @@ class UniqueId extends ValueObject<String>{
       );
   }
 }
+

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notepad_firebase_ddd/application/auth/sign_in_form/sign_in_form_bloc.dart';
@@ -13,6 +12,7 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
   @override
+  //we use bloc consumer which is a combination of bloc builder and bloc listener
   Widget build(BuildContext context) {
     return BlocConsumer<SignInFormBloc, SignInFormState>(
         builder: (context, state) {
@@ -40,9 +40,7 @@ class _SignInFormState extends State<SignInForm> {
                 ),
                 autocorrect: false,
                 onChanged: (value) {
-                  context
-                      .read<SignInFormBloc>()
-                      .add(EmailChangedEvent(value));
+                  context.read<SignInFormBloc>().add(EmailChangedEvent(value));
                 },
                 validator: (_) => context
                     .read<SignInFormBloc>()
@@ -74,8 +72,9 @@ class _SignInFormState extends State<SignInForm> {
                 validator: (_) =>
                     context.read<SignInFormBloc>().state.password.value.fold(
                           (l) => l.maybeMap(
-                              shortPassword: (_) => 'Short Password',
-                              orElse: () => null),
+                            shortPassword: (_) => 'Short Password',
+                            orElse: () => null,
+                          ),
                           (r) => null,
                         ),
               ),
@@ -86,13 +85,17 @@ class _SignInFormState extends State<SignInForm> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      context.read<SignInFormBloc>().add(SignInWithEmailAndPassword());
+                      context
+                          .read<SignInFormBloc>()
+                          .add(SignInWithEmailAndPassword());
                     },
                     child: const Text('SIGN IN'),
                   ),
                   TextButton(
                     onPressed: () {
-                      context.read<SignInFormBloc>().add(RegisterWithEmailAndPassword());
+                      context
+                          .read<SignInFormBloc>()
+                          .add(RegisterWithEmailAndPassword());
                     },
                     child: const Text('REGISTER'),
                   )
@@ -103,12 +106,18 @@ class _SignInFormState extends State<SignInForm> {
               ),
               TextButton(
                 onPressed: () {
-                  context
-                      .read<SignInFormBloc>()
-                      .add(const SignInWithGoogle());
+                  context.read<SignInFormBloc>().add(const SignInWithGoogle());
                 },
                 child: const Text('SIGN IN WITH GOOGLE'),
               ),
+              if (state.isSubmitting) ...[
+                const SizedBox(
+                  height: 8,
+                ),
+                const LinearProgressIndicator(
+                  value: null,
+                )
+              ]
             ],
           ),
         ),
@@ -116,14 +125,14 @@ class _SignInFormState extends State<SignInForm> {
     }, listener: (context, state) {
       state.authFailureOrSuccess.fold(() => {}, (either) {
         either.fold((failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(
-              failure.map(cancelledByUser: (_)=> 'cancelled', serverError: (_)=> 'server', emailAlreadyInUse: (_)=> 'inUSe', invalidEmailAndPasswordCombination: (_)=> 'Invalid')
-            ))
-          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(failure.map(
+                  cancelledByUser: (_) => 'cancelled',
+                  serverError: (_) => 'server',
+                  emailAlreadyInUse: (_) => 'inUSe',
+                  invalidEmailAndPasswordCombination: (_) => 'Invalid'))));
         }, (r) {});
       });
     });
   }
 }
-
