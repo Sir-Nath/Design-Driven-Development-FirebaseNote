@@ -15,10 +15,13 @@ class NoteBody extends ValueObject<String> {
   const NoteBody._(this.value);
   factory NoteBody(String input) {
     return NoteBody._(
-        validateMaxStringLength(input: input, maxLength: maxLength)
-            .flatMap((validateStringNotEmpty)));
+      validateMaxStringLength(input: input, maxLength: maxLength).flatMap(
+        (validateStringNotEmpty),
+      ),
+    );
   }
 }
+
 
 class TodoName extends ValueObject<String> {
   @override
@@ -29,9 +32,14 @@ class TodoName extends ValueObject<String> {
   const TodoName._(this.value);
   factory TodoName(String input) {
     return TodoName._(
-        validateMaxStringLength(input: input, maxLength: maxLength)
-            .flatMap((validateStringNotEmpty))
-            .flatMap((validateSingleLine)));
+      validateMaxStringLength(input: input, maxLength: maxLength)
+          .flatMap(
+            (validateStringNotEmpty),
+          )
+          .flatMap(
+            (validateSingleLine),
+          ),
+    );
   }
 }
 
@@ -52,7 +60,11 @@ class NoteColor extends ValueObject<Color> {
   const NoteColor._(this.value);
 
   factory NoteColor(Color input) {
-    return NoteColor._(right(makeColorOpaque(input)));
+    return NoteColor._(
+      right(
+        makeColorOpaque(input),
+      ),
+    );
   }
 }
 
@@ -69,12 +81,11 @@ class ListThree<T> extends ValueObject<KtList<T>> {
     );
   }
 
-  int get length{
+  int get length {
     return value.getOrElse(() => emptyList()).size;
   }
 
-  bool get isFull{
+  bool get isFull {
     return length == maxLength;
   }
-
 }
